@@ -1,0 +1,84 @@
+{
+  "projectName": "BH Shopping Guide",
+  "author": "Enzo Rodrigues Lana",
+  "description": "Site de guia de lojas de moda em Belo Horizonte que exibe lojas em destaque, separa categorias masculinas e femininas e fornece detalhes de cada loja por meio de páginas interligadas.",
+  "mainFiles": [
+    "index.html",
+    "app.js",
+    "style.css",
+    "detalhes.html"
+  ],
+  "technologies": [
+    "HTML5",
+    "CSS3",
+    "JavaScript Vanilla",
+    "Bootstrap 5",
+    "SVG"
+  ],
+  "pages": {
+    "home": {
+      "file": "index.html",
+      "purpose": "Página inicial com menu de navegação, seção de destaque e seções masculinas e femininas.",
+      "features": [
+        "Título e descrição do projeto",
+        "Menu responsivo com botão de alternância para mobile",
+        "Carrossel dinâmico de lojas em destaque carregado via JavaScript",
+        "Links de navegação para seções internas",
+        "Seções reservadas para lojas masculinas e femininas"
+      ]
+    },
+    "detalhes": {
+      "file": "detalhes.html",
+      "purpose": "Página de detalhamento de loja que exibe dados completos da loja selecionada por ID na query string.",
+      "features": [
+        "Busca do ID da loja via URL query string (ex: detalhes.html?id=1)",
+        "Exibição de imagem, nome, categoria, endereço, telefone e horário",
+        "Descrição completa e conteúdo adicional de cada loja",
+        "Galeria de fotos relacionada à loja",
+        "Botão de retorno para a página inicial"
+      ]
+    }
+  },
+  "dataModel": {
+    "lojas": {
+      "sourceFile": "app.js",
+      "fields": [
+        "id",
+        "nome",
+        "categoria",
+        "descricao",
+        "endereco",
+        "conteudo",
+        "telefone",
+        "horario",
+        "destaque",
+        "imagem"
+      ],
+      "notes": "Seis lojas definidas, com três focadas em moda masculina e três em moda feminina. Os itens com destaque true aparecem no carrossel da home."
+    },
+    "fotos": {
+      "sourceFile": "app.js",
+      "fields": [
+        "id",
+        "lojaId",
+        "titulo",
+        "imagem"
+      ],
+      "notes": "Galeria de imagens associadas a lojas, usada na página de detalhes."
+    }
+  },
+  "functionalities": [
+    "Montagem automática do carrossel de lojas em destaque ao carregar a home",
+    "Filtragem de lojas por categoria masculina e feminina para exibição de cards",
+    "Geração dinâmica de cards de loja com botão de detalhes",
+    "Navegação de página via query string para carregar dados específicos",
+    "Fallback de erro quando loja não é encontrada"
+  ],
+  "projectGoals": [
+    "Exibir um catálogo dinâmico de lojas de moda",
+    "Criar uma homepage responsiva para desktop e mobile",
+    "Permitir acesso a informações detalhadas de cada loja",
+    "Praticar manipulação de DOM e uso de JavaScript vanilla",
+    "Organizar dados de loja em formato JSON dentro do JavaScript"
+  ]
+}

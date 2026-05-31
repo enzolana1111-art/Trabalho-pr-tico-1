@@ -1,1 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BH Shopping Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GTV0lV0fIF8Rf6/4Uln1VbC1CEJp6cGZW8x9Y2V5sGpwxpS3w+yv/V0nUv1nw0n1" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-container container">
+            <div class="logo">BH Shopping Guide</div>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <nav id="navMenu">
+                <a href="index.html">Home</a>
+                <a href="#destaque">Destaque</a>
+                <a href="#masculino">Masculino</a>
+                <a href="#feminino">Feminino</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container py-4">
+        <section class="text-center mb-5">
+            <h1>Encontre suas lojas favoritas com facilidade!</h1>
+            <p class="lead">Aqui você localiza as melhores marcas de moda na capital mineira.</p>
+        </section>
+
+        <section id="destaque" class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h2>Lojas em destaque</h2>
+                    <p class="text-muted">Veja as lojas em destaque com descrição e imagem.</p>
+                </div>
+            </div>
+            <div id="destaqueCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner" id="carouselInner"></div>
+            </div>
+        </section>
+
+        <section id="masculino" class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h2>Masculino</h2>
+                    <p class="text-muted">Seção reservada para as lojas masculinas desta fase do projeto.</p>
+                </div>
+            </div>
+            <p>As lojas masculinas serão exibidas aqui em uma atualização futura.</p>
+        </section>
+
+        <section id="feminino" class="mb-5">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h2>Feminino</h2>
+                    <p class="text-muted">Seção reservada para as lojas femininas desta fase do projeto.</p>
+                </div>
+            </div>
+            <p>As lojas femininas serão exibidas aqui em uma atualização futura.</p>
+        </section>
+
+        <section id="responsavel" class="sobre-responsavel p-4 bg-light rounded shadow-sm mb-5">
+            <h2>Sobre o responsável pelo site</h2>
+            
+            <ul>
+                <li><strong>Nome:</strong> Enzo Rodrigues Lana</li>
+                <li><strong>Curso:</strong> Engenharia de software</li>
+                <li><strong>Objetivo do site:</strong> Mostrar a localização das lojas de roupa mais populares de roupa de Belo horizonte em um só site.</li>
+                <li><strong>Responsividade:</strong> versão mobile com navegação simples e layout adaptável.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="text-center py-4 bg-dark text-white">
+        <p>&copy; 2024 BH Shopping Guide. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6lMFbmkCw4Yq5a5Vh1OE3PZ8i4DPN9Gqv+I1UlZ4QO6Kq5V3Qv5" crossorigin="anonymous"></script>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            montarCarousel();
+        });
+
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>
 

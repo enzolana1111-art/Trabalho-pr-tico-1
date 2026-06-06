@@ -1,155 +1,196 @@
-const API_URL = 'http://localhost:3000/lojas';
-
-const LOJAS_FALLBACK = [
+const dados = [
   {
     "id": 1,
     "nome": "Hugo Boss",
     "categoria": "Moda Masculina",
-    "descricaoCurta": "Roupas sociais e perfumes de luxo.",
-    "descricaoCompleta": "Hugo Boss é referência em moda masculina de alto padrão, com peças elegantes para trabalho e ocasiões especiais. A marca alemã combina sofisticação e modernidade em cada coleção, oferecendo desde ternos impecáveis até perfumes exclusivos.",
+    "descricao": "Roupas sociais e perfumes de luxo.",
     "endereco": "Diamond Mall, piso 4 - Av. Olegário Maciel, 1600 - Lourdes / BH Shopping, piso 4 - Rodovia BR-356, 3049 / BH Outlet, piso 2 - Rodovia BR-356, 7515",
+    "conteudo": "Hugo Boss é referência em moda masculina de alto padrão, com peças elegantes para trabalho e ocasiões especiais.",
     "telefone": "(31) 4004-4000",
     "horario": "Seg-Sáb: 10h às 22h",
-    "preco": "A partir de R$ 299,00",
-    "tags": ["luxo", "social", "masculino", "perfumes", "ternos"],
-    "destaque": true
+    "destaque": true,
+    "imagem": "img/hugo_boss.svg"
   },
   {
     "id": 2,
     "nome": "Lacoste",
     "categoria": "Moda Masculina",
-    "descricaoCurta": "Polo e roupas esportivas com estilo.",
-    "descricaoCompleta": "Lacoste oferece peças icônicas com o crocodilo, unindo conforto esportivo e elegância para o dia a dia. Fundada em 1933, a marca francesa é sinônimo de estilo clássico e qualidade premium em camisas polo, vestuário e acessórios.",
-    "endereco": "BH Shopping, piso 3 - Rodovia BR-356, 3049 / Diamond Mall, piso 4 - Av. Olegário Maciel, 1600 / Pátio Savassi, piso L2 - Av. do Contorno, 6061",
+    "descricao": "Polo e roupas esportivas com estilo.",
+    "endereco": "BH Shopping, piso 3 - Rodovia BR-356, 3049 / Diamond Mall, piso 4 - Av. Olegário Maciel, 1600 - Lourdes / Pátio Savassi, piso L2 - Av. do Contorno, 6061",
+    "conteudo": "Lacoste oferece peças icônicas com o crocodilo, unindo conforto esportivo e elegância para o dia a dia.",
     "telefone": "(31) 4004-5000",
     "horario": "Seg-Sáb: 10h às 21h",
-    "preco": "A partir de R$ 199,00",
-    "tags": ["polo", "esportivo", "clássico", "masculino", "francês"],
-    "destaque": true
+    "destaque": true,
+    "imagem": "img/lacoste.svg"
   },
   {
     "id": 3,
     "nome": "Polo Ralph Lauren",
     "categoria": "Moda Masculina",
-    "descricaoCurta": "Linha premium de camisas e acessórios.",
-    "descricaoCompleta": "Polo Ralph Lauren apresenta roupas masculinas com estilo clássico e acabamento refinado para looks sofisticados. A marca americana é referência global em moda de alto padrão, com coleções que transitam entre o casual e o formal com elegância.",
+    "descricao": "Linha premium de camisas e acessórios.",
     "endereco": "Não possui endereço em Belo Horizonte. Sugestões de lojas online seguras: Drop, Farfetch e Dafiti.",
+    "conteudo": "Polo Ralph Lauren apresenta roupas masculinas com estilo clássico e acabamento refinado para looks sofisticados.",
     "telefone": "(31) 4004-6000",
     "horario": "Seg-Dom: 11h às 20h (online)",
-    "preco": "A partir de R$ 350,00",
-    "tags": ["premium", "americano", "clássico", "camisas", "acessórios"],
-    "destaque": false
+    "destaque": false,
+    "imagem": "img/polo.svg"
   },
   {
     "id": 4,
     "nome": "Zara",
     "categoria": "Moda Feminina",
-    "descricaoCurta": "Tendências da moda feminina para todas as ocasiões.",
-    "descricaoCompleta": "Zara oferece novidades da moda feminina com coleções que mudam frequentemente e peças modernas para várias ocasiões. A gigante espanhola do varejo de moda traz as últimas tendências das passarelas para o dia a dia com preços acessíveis.",
+    "descricao": "Tendências da moda feminina para todas as ocasiões.",
     "endereco": "BH Shopping, piso 1 - Rodovia BR-356, 3049 / Boulevard Shopping, piso 2 - Avenida dos Andradas, 3000",
+    "conteudo": "Zara oferece novidades da moda feminina com coleções que mudam frequentemente e peças modernas para várias ocasiões.",
     "telefone": "(31) 4004-7000",
     "horario": "Seg-Sáb: 10h às 22h",
-    "preco": "A partir de R$ 89,00",
-    "tags": ["tendência", "feminino", "versátil", "espanhol", "acessível"],
-    "destaque": true
+    "destaque": true,
+    "imagem": "img/zara.svg"
   },
   {
     "id": 5,
     "nome": "Guess",
     "categoria": "Moda Feminina",
-    "descricaoCurta": "Looks jovens e cheios de personalidade.",
-    "descricaoCompleta": "Guess reúne peças cheias de atitude, com estilo jovem e moderno, ideal para fashionistas que buscam destaque. A marca americana é conhecida pelo apelo sensual e pelo uso de jeans de alta qualidade, além de bolsas e acessórios icônicos.",
+    "descricao": "Looks jovens e cheios de personalidade.",
     "endereco": "BH Outlet, piso 1 - Rodovia BR-356, 7515",
+    "conteudo": "Guess reúne peças cheias de atitude, com estilo jovem e moderno, ideal para fashionistas que buscam destaque.",
     "telefone": "(31) 4004-8000",
     "horario": "Seg-Sáb: 10h às 21h",
-    "preco": "A partir de R$ 199,00",
-    "tags": ["jovem", "feminino", "americano", "jeans", "atitude"],
-    "destaque": false
+    "destaque": false,
+    "imagem": "img/guess.svg"
   },
   {
     "id": 6,
     "nome": "Vans",
     "categoria": "Moda Feminina",
-    "descricaoCurta": "Roupas casuais e calçados descolados.",
-    "descricaoCompleta": "Vans oferece estilo urbano para o público feminino, com tênis e roupas confortáveis para o dia a dia. A marca californiana nasceu do skate e conquistou o mundo com seu estilo alternativo e acessível, sendo ícone da cultura jovem urbana.",
+    "descricao": "Roupas casuais e calçados descolados.",
     "endereco": "BH Shopping, piso 1 - Rodovia BR-356, 3049 / Pátio Savassi, piso L2 - Av. do Contorno, 6061",
+    "conteudo": "Vans oferece estilo urbano para o público feminino, com tênis e roupas confortáveis para o dia a dia.",
     "telefone": "(31) 4004-9000",
     "horario": "Seg-Sáb: 10h às 22h",
-    "preco": "A partir de R$ 129,00",
-    "tags": ["casual", "skate", "urbano", "feminino", "tênis"],
-    "destaque": false
+    "destaque": false,
+    "imagem": "img/vans.svg"
   }
 ];
 
-async function fetchItems() {
-  try {
-    const response = await fetch(API_URL);
-    if (!response.ok) throw new Error('Servidor indisponível');
-    return response.json();
-  } catch {
-    console.warn('JSON Server não encontrado. Usando dados locais.');
-    return LOJAS_FALLBACK;
-  }
+const fotos = [
+  { "id": 1, "lojaId": 1, "titulo": "Vitrine elegante", "imagem": "img/hugo_boss.svg" },
+  { "id": 2, "lojaId": 1, "titulo": "Ambiente de luxo", "imagem": "img/hugo_boss.svg" },
+  { "id": 3, "lojaId": 2, "titulo": "Coleção de polos", "imagem": "img/lacoste.svg" },
+  { "id": 4, "lojaId": 2, "titulo": "Detalhes em verde", "imagem": "img/lacoste.svg" },
+  { "id": 5, "lojaId": 4, "titulo": "Mostruário Zara", "imagem": "img/zara.svg" },
+  { "id": 6, "lojaId": 5, "titulo": "Visual Guess", "imagem": "img/guess.svg" },
+  { "id": 7, "lojaId": 6, "titulo": "Tênis Vans", "imagem": "img/vans.svg" }
+];
+
+function obterLojaPorId(id) {
+  return dados.find(loja => loja.id === Number(id));
 }
 
-function createCard(item) {
-  const col = document.createElement('div');
-  col.className = 'col-12 col-md-6 col-lg-4';
-  col.innerHTML = `
-    <div class="card h-100 shadow-sm">
-      <div class="card-body d-flex flex-column">
-        <span class="badge bg-secondary mb-2 align-self-start">${item.categoria}</span>
-        <h3 class="card-title h5">${item.nome}</h3>
-        <p class="card-text text-muted mb-1">${item.descricaoCurta}</p>
-        <p class="fw-semibold mb-3">${item.preco}</p>
-        <a href="details.html?id=${item.id}" class="btn btn-dark mt-auto">Ver detalhes</a>
+function montarCarousel() {
+  const carouselInner = document.getElementById('carouselInner');
+  if (!carouselInner) return;
+
+  const destaques = dados.filter(item => item.destaque);
+  carouselInner.innerHTML = '';
+
+  destaques.forEach((loja, index) => {
+    const item = document.createElement('div');
+    item.className = `carousel-item ${index === 0 ? 'active' : ''}`;
+    item.innerHTML = `
+      <div class="destaque-card row align-items-center gx-4">
+        <div class="col-md-5">
+          <img src="${loja.imagem}" class="d-block w-100 rounded" alt="${loja.nome}">
+        </div>
+        <div class="col-md-7">
+          <h3>${loja.nome}</h3>
+          <p class="text-muted mb-2">${loja.categoria}</p>
+          <p>${loja.descricao}</p>
+          <p class="mb-2"><strong>Endereço:</strong> ${loja.endereco}</p>
+          <a href="detalhes.html?id=${loja.id}" class="btn btn-dark">Ver detalhes</a>
+        </div>
+      </div>
+    `;
+    carouselInner.appendChild(item);
+  });
+}
+
+function exibirCards() {
+  const masculinoContainer = document.getElementById('lojas-masculinas');
+  const femininoContainer = document.getElementById('lojas-femininas');
+  if (!masculinoContainer || !femininoContainer) return;
+
+  const lojasMasculinas = dados.filter(loja => loja.categoria.toLowerCase().includes('masculina'));
+  const lojasFemininas = dados.filter(loja => loja.categoria.toLowerCase().includes('feminina'));
+
+  masculinoContainer.innerHTML = gerarCards(lojasMasculinas);
+  femininoContainer.innerHTML = gerarCards(lojasFemininas);
+}
+
+function gerarCards(lojas) {
+  return lojas.map(loja => `
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <img src="${loja.imagem}" class="card-img-top img-fluid" alt="${loja.nome}">
+        <div class="card-body d-flex flex-column">
+          <h3 class="card-title h5">${loja.nome}</h3>
+          <p class="text-muted mb-2">${loja.categoria}</p>
+          <p class="card-text mb-3">${loja.descricao}</p>
+          <a href="detalhes.html?id=${loja.id}" class="btn btn-dark mt-auto">Ver detalhes</a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function obterFotosPorLojaId(lojaId) {
+  return fotos.filter(foto => foto.lojaId === lojaId);
+}
+
+function exibirDetalhes() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  const loja = obterLojaPorId(id);
+
+  if (!loja) {
+    document.body.innerHTML = '<div class="container py-5"><h2>Loja não encontrada!</h2><a href="index.html" class="btn btn-primary mt-3">Voltar</a></div>';
+    return;
+  }
+
+  const container = document.getElementById('detalhe-container');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <img src="${loja.imagem}" alt="${loja.nome}" class="img-fluid rounded mb-3 detalhe-img">
+      </div>
+      <div class="col-lg-7">
+        <h1>${loja.nome}</h1>
+        <p class="mb-3">${loja.descricao}</p>
+        <div class="info p-3 rounded bg-light mb-3">
+          <p><strong>Endereço:</strong> ${loja.endereco}</p>
+          <p><strong>Telefone:</strong> ${loja.telefone}</p>
+          <p><strong>Horário:</strong> ${loja.horario}</p>
+          <p><strong>Sobre:</strong> ${loja.conteudo}</p>
+        </div>
+        <a href="index.html" class="btn btn-dark">Voltar</a>
       </div>
     </div>
   `;
-  return col;
+
+  const galeria = document.getElementById('galeria');
+  if (!galeria) return;
+
+  const fotosDaLoja = obterFotosPorLojaId(loja.id);
+  galeria.innerHTML = fotosDaLoja.map(foto => `
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <img src="${foto.imagem}" class="card-img-top img-fluid" alt="${foto.titulo}">
+        <div class="card-body">
+          <h5 class="card-title">${foto.titulo}</h5>
+        </div>
+      </div>
+    </div>
+  `).join('');
 }
-
-// ── Render ───────────────────────────────────────────────────────────────────
-function renderCards(items, containerId) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  container.innerHTML = '';
-  if (items.length === 0) {
-    container.innerHTML = '<p class="text-muted">Nenhuma loja encontrada.</p>';
-    return;
-  }
-  items.forEach(item => container.appendChild(createCard(item)));
-}
-
-async function init() {
-  try {
-    const items = await fetchItems();
-
-    const masculinas = items.filter(i =>
-      i.categoria.toLowerCase().includes('masculina')
-    );
-    const femininas = items.filter(i =>
-      i.categoria.toLowerCase().includes('feminina')
-    );
-
-    renderCards(masculinas, 'lojas-masculinas');
-    renderCards(femininas, 'lojas-femininas');
-
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  init();
-
-  const menuToggle = document.getElementById('menuToggle');
-  const navMenu = document.getElementById('navMenu');
-  if (menuToggle && navMenu) {
-    menuToggle.addEventListener('click', () => navMenu.classList.toggle('active'));
-    navMenu.querySelectorAll('a').forEach(link =>
-      link.addEventListener('click', () => navMenu.classList.remove('active'))
-    );
-  }
-});

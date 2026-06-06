@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizações - BH Shopping Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GTV0lV0fIF8Rf6/4Uln1VbC1CEJp6cGZW8x9Y2V5sGpwxpS3w+yv/V0nUv1nw0n1" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-bottom: 3rem;
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chart-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+        
+        .controls-section {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+        }
+        
+        .btn-control {
+            margin: 0.5rem;
+        }
+        
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .stat-card h3 {
+            font-size: 2.5rem;
+            margin: 0;
+            font-weight: bold;
+        }
+        
+        .stat-card p {
+            margin: 0.5rem 0 0 0;
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+        
+        .stat-card.feminino {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .stat-card.masculino {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .stat-card.destaque {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container container">
+            <div class="logo">BH Shopping Guide</div>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <nav id="navMenu">
+                <a href="index.html">Home</a>
+                <a href="#destaque">Destaque</a>
+                <a href="#masculino">Masculino</a>
+                <a href="#feminino">Feminino</a>
+                <a href="visualizacoes.html" class="active">Visualizações</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container py-4">
+        <section class="text-center mb-5">
+            <h1>Análise de Lojas</h1>
+            <p class="lead">Visualize estatísticas e dados sobre nossas lojas de moda em Belo Horizonte.</p>
+        </section>
+
+        <div class="stats-cards">
+            <div class="stat-card">
+                <h3 id="totalLojas">0</h3>
+                <p>Total de Lojas</p>
+            </div>
+            <div class="stat-card masculino">
+                <h3 id="totalMasculino">0</h3>
+                <p>Lojas Masculinas</p>
+            </div>
+            <div class="stat-card feminino">
+                <h3 id="totalFeminino">0</h3>
+                <p>Lojas Femininas</p>
+            </div>
+            <div class="stat-card destaque">
+                <h3 id="totalDestaque">0</h3>
+                <p>Em Destaque</p>
+            </div>
+        </div>
+
+        <div class="controls-section">
+            <h3>Filtrar Visualizações</h3>
+            <button class="btn btn-outline-dark btn-control" onclick="mostrarTodos()">Mostrar Tudo</button>
+            <button class="btn btn-outline-dark btn-control" onclick="filtrarMasculino()">Apenas Masculino</button>
+            <button class="btn btn-outline-dark btn-control" onclick="filtrarFeminino()">Apenas Feminino</button>
+            <button class="btn btn-outline-dark btn-control" onclick="mostrarDestaque()">Apenas Destaque</button>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="chart-container">
+                    <div class="chart-title">Distribuição de Lojas por Categoria</div>
+                    <canvas id="chartPizza"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="chart-container">
+                    <div class="chart-title">Lojas em Destaque</div>
+                    <canvas id="chartDestaque"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="chart-container">
+                    <div class="chart-title">Lojas por Shopping/Local</div>
+                    <canvas id="chartBarras"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <section class="mt-5">
+            <h2 class="mb-4">Relação de Todas as Lojas</h2>
+            <div class="table-responsive">
+                <table class="table table-hover table-striped" id="tabelaLojas">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Categoria</th>
+                            <th>Destaque</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabela">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-4 bg-dark text-white">
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6lMFbmkCw4Yq5a5Vh1OE3PZ8i4DPN9Gqv+I1UlZ4QO6Kq5V3Qv5" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+    <script>
+        let chartPizza, chartDestaque, chartBarras;
+        let dadosFiltrados = [...dados];
+
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        function mostrarTodos() {
+            dadosFiltrados = [...dados];
+            atualizarVisualizacoes();
+        }
+
+        function filtrarMasculino() {
+            dadosFiltrados = dados.filter(l => l.categoria.includes('Masculina'));
+            atualizarVisualizacoes();
+        }
+
+        function filtrarFeminino() {
+            dadosFiltrados = dados.filter(l => l.categoria.includes('Feminina'));
+            atualizarVisualizacoes();
+        }
+
+        function mostrarDestaque() {
+            dadosFiltrados = dados.filter(l => l.destaque);
+            atualizarVisualizacoes();
+        }
+
+        function extrairMall(endereco) {
+            if (endereco.includes('BH Shopping')) return 'BH Shopping';
+            if (endereco.includes('Diamond Mall')) return 'Diamond Mall';
+            if (endereco.includes('BH Outlet')) return 'BH Outlet';
+            if (endereco.includes('Pátio Savassi')) return 'Pátio Savassi';
+            if (endereco.includes('Boulevard')) return 'Boulevard Shopping';
+            return 'Online';
+        }
+
+        function atualizarGraficoPizza() {
+            const ctx = document.getElementById('chartPizza').getContext('2d');
+            
+            const masculinas = dadosFiltrados.filter(l => l.categoria.includes('Masculina')).length;
+            const femininas = dadosFiltrados.filter(l => l.categoria.includes('Feminina')).length;
+
+            if (chartPizza) chartPizza.destroy();
+
+            chartPizza = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Moda Masculina', 'Moda Feminina'],
+                    datasets: [{
+                        data: [masculinas, femininas],
+                        backgroundColor: ['#00f2fe', '#f5576c'],
+                        borderColor: ['#fff', '#fff'],
+                        borderWidth: 2,
+                        hoverBorderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 15,
+                                font: { size: 14 }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function atualizarGraficoDestaque() {
+            const ctx = document.getElementById('chartDestaque').getContext('2d');
+            
+            const emDestaque = dadosFiltrados.filter(l => l.destaque).length;
+            const semDestaque = dadosFiltrados.filter(l => !l.destaque).length;
+
+            if (chartDestaque) chartDestaque.destroy();
+
+            chartDestaque = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Em Destaque', 'Sem Destaque'],
+                    datasets: [{
+                        label: 'Quantidade',
+                        data: [emDestaque, semDestaque],
+                        backgroundColor: ['#43e97b', '#f093fb'],
+                        borderColor: ['#38f9d7', '#f5576c'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 }
+                        }
+                    }
+                }
+            });
+        }
+
+        function atualizarGraficoBarras() {
+            const ctx = document.getElementById('chartBarras').getContext('2d');
+            
+            const malls = {};
+            dadosFiltrados.forEach(loja => {
+                const mall = extrairMall(loja.endereco);
+                malls[mall] = (malls[mall] || 0) + 1;
+            });
+
+            const labels = Object.keys(malls);
+            const data = Object.values(malls);
+
+            if (chartBarras) chartBarras.destroy();
+
+            chartBarras = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Quantidade de Lojas',
+                        data: data,
+                        backgroundColor: '#667eea',
+                        borderColor: '#5a67d8',
+                        borderWidth: 2,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 }
+                        }
+                    }
+                }
+            });
+        }
+
+        function atualizarEstatisticas() {
+            document.getElementById('totalLojas').textContent = dados.length;
+            document.getElementById('totalMasculino').textContent = dados.filter(l => l.categoria.includes('Masculina')).length;
+            document.getElementById('totalFeminino').textContent = dados.filter(l => l.categoria.includes('Feminina')).length;
+            document.getElementById('totalDestaque').textContent = dados.filter(l => l.destaque).length;
+        }
+
+        function atualizarTabela() {
+            const tbody = document.getElementById('corpoTabela');
+            tbody.innerHTML = dadosFiltrados.map(loja => `
+                <tr>
+                    <td>${loja.id}</td>
+                    <td><strong>${loja.nome}</strong></td>
+                    <td>${loja.categoria}</td>
+                    <td><span class="badge ${loja.destaque ? 'bg-success' : 'bg-secondary'}">${loja.destaque ? 'Sim' : 'Não'}</span></td>
+                    <td><a href="detalhes.html?id=${loja.id}" class="btn btn-sm btn-dark">Ver</a></td>
+                </tr>
+            `).join('');
+        }
+
+        function atualizarVisualizacoes() {
+            atualizarGraficoPizza();
+            atualizarGraficoDestaque();
+            atualizarGraficoBarras();
+            atualizarTabela();
+        }
+
+        window.addEventListener('load', () => {
+            atualizarEstatisticas();
+            atualizarVisualizacoes();
+        });
+    </script>
+</body>
+</html>
